@@ -1,0 +1,13 @@
+{
+	"name": "DS_CORNERCHY_OLTP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_CORNERCHY_OLTP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

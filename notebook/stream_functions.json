@@ -1,0 +1,212 @@
+{
+	"name": "stream_functions",
+	"properties": {
+		"folder": {
+			"name": "includes"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "DataProcess",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "285d9e2a-43e8-494e-a617-3a6380497fd4"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/edc28f36-9160-4500-b465-77e4ca43b417/resourceGroups/rg-openclassanalytics/providers/Microsoft.Synapse/workspaces/synopenclassanalytics/bigDataPools/DataProcess",
+				"name": "DataProcess",
+				"type": "Spark",
+				"endpoint": "https://synopenclassanalytics.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/DataProcess",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 10,
+				"cores": 8,
+				"memory": 56,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"source": [
+					"## stream_functions\n",
+					"\n",
+					"undefined\n",
+					""
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"**Importación de librerías necesarias**"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql.types import *\n",
+					"from pyspark.sql.functions import substring, isnull, col, regexp_replace, current_timestamp, lit, month, dayofmonth, year, to_date, lpad, input_file_name, coalesce \n",
+					"import pyspark.sql.functions as F\n",
+					"from notebookutils import mssparkutils\n",
+					"from delta import *\n",
+					"from datetime import datetime, timedelta, date"
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"**Definición de funciones**"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Get schema from delta table\n",
+					"def getSchemaFromDeltaTable(path):\n",
+					"    return DeltaTable.forPath(spark, path).toDF().schema\n",
+					"\n",
+					"# forech funtion\n",
+					"def upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files):\n",
+					"   # microBatchOutputDF = microBatchOutputDF.cache()\n",
+					"    if primarykey == None or primarykey == \"\":\n",
+					"        columns = allColumns(microBatchOutputDF, metadata_columns.split(','))\n",
+					"        primaryKeys = generatePKs(columns)\n",
+					"    else:\n",
+					"        columns = primarykey.split(\",\")\n",
+					"        primaryKeys = generatePKs(columns)\n",
+					"\n",
+					"    if partitionBy != None and partitionBy != \"\":\n",
+					"        microBatchOutputDF = addDatesFields(microBatchOutputDF, partitionBy, level)\n",
+					"    \n",
+					"    if cleanSpecialChar: \n",
+					"            microBatchOutputDF = cleanSpecialChar(microBatchOutputDF)\n",
+					"            \n",
+					"    microBatchOutputDF = microBatchOutputDF.dropDuplicates(columns)\n",
+					"    microBatchOutputDF = microBatchOutputDF.withColumn(\"load_date\", current_timestamp())\n",
+					"    microBatchOutputDF = microBatchOutputDF.withColumn(\"type_process\", lit(typeProcess))\n",
+					"\n",
+					"    #print(f\"processing file: {microBatchOutputDF.select('filename', 'load_date', 'type_process')}\")\n",
+					"    \n",
+					"    if checkDeltaFolder(path_destination_completed):\n",
+					"        print (f\"upsertToDelta: {batchId} - Merge\")\n",
+					"        print(f\"Primarys Keys: {primaryKeys}\" )\n",
+					"        curatedTable = DeltaTable.forPath(spark, path_destination_completed)\n",
+					"        curatedTable.alias(\"deltaTable\")             .merge(\n",
+					"                microBatchOutputDF.alias(\"incTable\")\n",
+					"                ,primaryKeys) \\\n",
+					"            .whenMatchedUpdateAll() \\\n",
+					"            .whenNotMatchedInsertAll() \\\n",
+					"            .execute()\n",
+					"    else:\n",
+					"        print (f\"upsertToDelta: {batchId} - Full\")\n",
+					"        if partitionBy == None or partitionBy == \"\":\n",
+					"            microBatchOutputDF.repartition(repartition_num_files).write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)\n",
+					"        else:\n",
+					"            if f\"{partitionBy}_year\" in microBatchOutputDF.columns:\n",
+					"                microBatchOutputDF.repartition(repartition_num_files).write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").partitionBy(generatePartitionField(partitionBy, level)).save(path_destination_completed)\n",
+					"            else:\n",
+					"                microBatchOutputDF.repartition(repartition_num_files).write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").partitionBy(partitionBy).save(path_destination_completed)\n",
+					"\n",
+					"# Function to load history by batch. (# First load with last file)\n",
+					"# It is \"separated\" from the flow by the issue where file-by-file processing \n",
+					"# is ignored, (option(\"maxFilesPerTrigger\", 1)) when trigger.one= true is used.\n",
+					"def first_load_stream_last_file(path_source_completed, path_deltaCheckpointPath, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files, maxFilesPerTrigger):\n",
+					"    return (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\n",
+					"    .option(\"latestFirst\", True).format('parquet')\n",
+					"    .option(\"inferschema\", True)\n",
+					"    .option(\"header\", True)\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\n",
+					"    .writeStream.format('delta').foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files))\n",
+					"    .outputMode(\"update\")\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\n",
+					"    .start()\n",
+					")\n",
+					"\n",
+					"def inc_stream_trigger_one(path_source_completed, path_deltaCheckpointPath, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files):    \n",
+					"    return (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\n",
+					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\n",
+					"    .writeStream.format('delta')\n",
+					"    .trigger(once=True) \\\n",
+					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files))\n",
+					"    .outputMode(\"update\")\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\n",
+					"    .start() \\\n",
+					"    .awaitTermination()\n",
+					")\n",
+					"\n",
+					"def inc_stream_one_file_per_trigger(path_source_completed, path_deltaCheckpointPath, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files):    \n",
+					"    return (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\n",
+					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\n",
+					"    .writeStream.format('delta')\n",
+					"    #.trigger(once=True) \\ \n",
+					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files))\n",
+					"    .outputMode(\"update\")\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\n",
+					"    .start() \\\n",
+					"    #.awaitTermination()\n",
+					")\n",
+					"\n",
+					"def append_stream_trigger_one(path_source_completed, path_deltaCheckpointPath, path_destination_completed):\n",
+					"    return (spark.readStream.option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name()).withColumn(\"load_date\", current_timestamp())\n",
+					"    .withColumn(\"type_process\", lit(typeProcess))\n",
+					"    .writeStream.format('delta') \\\n",
+					"    .option(\"path\", path_destination_completed)\n",
+					"    .trigger(once=True) \\\n",
+					"    .outputMode(\"append\")\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\n",
+					"    .start() \\\n",
+					"    .awaitTermination()\n",
+					")"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

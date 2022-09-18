@@ -1,0 +1,104 @@
+{
+	"name": "demo07_config_silver_dynamic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synopenclassanalytics-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "demo07_config_silver_dynamic.json",
+				"folderPath": "metadata",
+				"fileSystem": "synapsews"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"global_attributes": {
+					"type": "object",
+					"properties": {
+						"path_source": {
+							"type": "string"
+						},
+						"path_destination": {
+							"type": "string"
+						},
+						"path_metadata": {
+							"type": "string"
+						},
+						"path_log_database": {
+							"type": "string"
+						},
+						"metadata_columns": {
+							"type": "string"
+						}
+					}
+				},
+				"entities": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"database": {
+								"type": "string"
+							},
+							"entity_source": {
+								"type": "string"
+							},
+							"primarykey": {
+								"type": "string"
+							},
+							"partitionBy": {
+								"type": "string"
+							},
+							"level": {
+								"type": "string"
+							},
+							"type_process": {
+								"type": "string"
+							},
+							"clean_special_char": {
+								"type": "string"
+							},
+							"acive_for_load": {
+								"type": "string"
+							},
+							"source_folder": {
+								"type": "string"
+							},
+							"repartition_num_files": {
+								"type": "integer"
+							},
+							"stream_period_folder": {
+								"type": "string"
+							},
+							"custom_driver_cores": {
+								"type": "integer"
+							},
+							"custom_driver_memory": {
+								"type": "string"
+							},
+							"custom_num_executors": {
+								"type": "integer"
+							},
+							"custom_executor_cores": {
+								"type": "integer"
+							},
+							"custom_executor_memory": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

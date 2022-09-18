@@ -1,0 +1,230 @@
+{
+	"name": "Demo07_Canalizacion_principal",
+	"properties": {
+		"description": "Canalización principal para el proceso de ingesta de entidades de raw a silver",
+		"activities": [
+			{
+				"name": "Recuperar entidades a procesar",
+				"description": "",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "demo07_config_silver_dynamic",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Recorrer entidades a cargar",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Establecer metadata_columns",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Recuperar entidades a procesar').output.firstRow.entities",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Demo07_Invocacion_cuaderno_config",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "Demo07_Invocacion_cuaderno_config",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"table": {
+										"value": "@item().name",
+										"type": "Expression"
+									},
+									"database": {
+										"value": "@item().database",
+										"type": "Expression"
+									},
+									"entity": {
+										"value": "@item().entity_source",
+										"type": "Expression"
+									},
+									"primarykey": {
+										"value": "@item().primarykey",
+										"type": "Expression"
+									},
+									"partitionBy": {
+										"value": "@item().partitionBy",
+										"type": "Expression"
+									},
+									"cleanSpecialChar": {
+										"value": "@bool(item().clean_special_char)",
+										"type": "Expression"
+									},
+									"source_folder": {
+										"value": "@item().source_folder",
+										"type": "Expression"
+									},
+									"path_destination": {
+										"value": "@variables('path_destination')",
+										"type": "Expression"
+									},
+									"path_source": {
+										"value": "@variables('path_source')",
+										"type": "Expression"
+									},
+									"custom_period": {
+										"value": "@item().stream_period_folder",
+										"type": "Expression"
+									},
+									"metada_columns": {
+										"value": "@variables('metadata_columns')",
+										"type": "Expression"
+									},
+									"repartition_num_files": {
+										"value": "@item().repartition_num_files",
+										"type": "Expression"
+									},
+									"level": {
+										"value": "@item().level",
+										"type": "Expression"
+									},
+									"type_process": {
+										"value": "@item().type_process",
+										"type": "Expression"
+									},
+									"customDriverCores": {
+										"value": "@item().custom_driver_cores",
+										"type": "Expression"
+									},
+									"customDriverMemory": {
+										"value": "@item().custom_driver_memory",
+										"type": "Expression"
+									},
+									"customNumExecutors": {
+										"value": "@item().custom_num_executors",
+										"type": "Expression"
+									},
+									"customExecutorCores": {
+										"value": "@item().custom_executor_cores",
+										"type": "Expression"
+									},
+									"customExecutorMemory": {
+										"value": "@item().custom_executor_memory",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Establecer path_source",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Recuperar entidades a procesar",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "path_source",
+					"value": {
+						"value": "@activity('Recuperar entidades a procesar').output.firstRow.global_attributes.path_source",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Establecer path_destination",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Establecer path_source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "path_destination",
+					"value": {
+						"value": "@activity('Recuperar entidades a procesar').output.firstRow.global_attributes.path_destination",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Establecer metadata_columns",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Establecer path_destination",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "metadata_columns",
+					"value": {
+						"value": "@activity('Recuperar entidades a procesar').output.firstRow.global_attributes.metadata_columns",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"path_source": {
+				"type": "String"
+			},
+			"path_destination": {
+				"type": "String"
+			},
+			"metadata_columns": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Summit"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-09-10T10:53:53Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

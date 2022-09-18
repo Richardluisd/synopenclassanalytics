@@ -1,0 +1,562 @@
+{
+	"name": "Demo_02_operaciones_streaming",
+	"properties": {
+		"folder": {
+			"name": "Demos"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "DataProcess",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "3106d12b-eaa2-4414-9f8b-b7ba485d3eb9"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"020c4590-ec61-4a72-a02c-fc94d6b1e6d0": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"0": "2362370",
+										"1": "10885553",
+										"2": "1",
+										"3": "-",
+										"4": "AA1C5575-17F5-4999",
+										"5": "2019-01-01 10:00:48",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "901",
+										"10": "06000858",
+										"11": "D02BB1D168D141FA9613",
+										"12": "1.000000",
+										"13": "0.0352",
+										"14": "3.3500",
+										"15": "U",
+										"16": "2019-07-21 10:00:48.887"
+									},
+									{
+										"0": "2362370",
+										"1": "10885554",
+										"2": "2",
+										"3": "-",
+										"4": "AA1C5575-17F5-4999",
+										"5": "2019-01-01 10:00:48",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "901",
+										"10": "07000193",
+										"11": "D02BB1D168D141FA9613",
+										"12": "4.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:48.887"
+									},
+									{
+										"0": "2362370",
+										"1": "10885555",
+										"2": "3",
+										"3": "-",
+										"4": "AA1C5575-17F5-4999",
+										"5": "2019-01-01 10:00:48",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "901",
+										"10": "06000776",
+										"11": "D02BB1D168D141FA9613",
+										"12": "7.000000",
+										"13": "0.0352",
+										"14": "3.8100",
+										"15": "U",
+										"16": "2019-07-21 10:00:48.887"
+									},
+									{
+										"0": "2362371",
+										"1": "10885556",
+										"2": "1",
+										"3": "-",
+										"4": "E59E1EAE-6726-4683",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "009",
+										"10": "09004644",
+										"11": "81449EF65B88475F8DED",
+										"12": "1.000000",
+										"13": "0.0352",
+										"14": "13.4700",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.23"
+									},
+									{
+										"0": "2362371",
+										"1": "10885557",
+										"2": "2",
+										"3": "-",
+										"4": "E59E1EAE-6726-4683",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "009",
+										"10": "10000102",
+										"11": "81449EF65B88475F8DED",
+										"12": "9.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.23"
+									},
+									{
+										"0": "2362371",
+										"1": "10885558",
+										"2": "3",
+										"3": "-",
+										"4": "E59E1EAE-6726-4683",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "009",
+										"10": "09004849",
+										"11": "81449EF65B88475F8DED",
+										"12": "8.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.23"
+									},
+									{
+										"0": "2362371",
+										"1": "10885559",
+										"2": "4",
+										"3": "-",
+										"4": "E59E1EAE-6726-4683",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "009",
+										"10": "09003117",
+										"11": "81449EF65B88475F8DED",
+										"12": "1.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.23"
+									},
+									{
+										"0": "2362371",
+										"1": "10885560",
+										"2": "5",
+										"3": "-",
+										"4": "E59E1EAE-6726-4683",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "009",
+										"10": "07000345",
+										"11": "81449EF65B88475F8DED",
+										"12": "13.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.23"
+									},
+									{
+										"0": "2362372",
+										"1": "10885561",
+										"2": "1",
+										"3": "-",
+										"4": "1BFE2112-2A1E-48D6",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "003",
+										"10": "09001743",
+										"11": "82A9DD9EA9714F08A55B",
+										"12": "2.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.697"
+									},
+									{
+										"0": "2362372",
+										"1": "10885562",
+										"2": "2",
+										"3": "-",
+										"4": "1BFE2112-2A1E-48D6",
+										"5": "2019-01-01 10:00:49",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "003",
+										"10": "09004688",
+										"11": "82A9DD9EA9714F08A55B",
+										"12": "6.000000",
+										"13": "0.0352",
+										"14": "0.5700",
+										"15": "U",
+										"16": "2019-07-21 10:00:49.697"
+									}
+								],
+								"schema": [
+									{
+										"key": "0",
+										"name": "SaleId",
+										"type": "int"
+									},
+									{
+										"key": "1",
+										"name": "SaleLineId",
+										"type": "bigint"
+									},
+									{
+										"key": "2",
+										"name": "InvoiceLine",
+										"type": "int"
+									},
+									{
+										"key": "3",
+										"name": "OldTicket",
+										"type": "string"
+									},
+									{
+										"key": "4",
+										"name": "InvoiceCode",
+										"type": "string"
+									},
+									{
+										"key": "5",
+										"name": "DateTime",
+										"type": "timestamp"
+									},
+									{
+										"key": "6",
+										"name": "Date",
+										"type": "date"
+									},
+									{
+										"key": "7",
+										"name": "DateKey",
+										"type": "int"
+									},
+									{
+										"key": "8",
+										"name": "HourKey",
+										"type": "int"
+									},
+									{
+										"key": "9",
+										"name": "StoreCode",
+										"type": "string"
+									},
+									{
+										"key": "10",
+										"name": "ProductCode",
+										"type": "string"
+									},
+									{
+										"key": "11",
+										"name": "CustomerCode",
+										"type": "string"
+									},
+									{
+										"key": "12",
+										"name": "Quantity",
+										"type": "decimal"
+									},
+									{
+										"key": "13",
+										"name": "SalePrice",
+										"type": "decimal"
+									},
+									{
+										"key": "14",
+										"name": "PurchasePrice",
+										"type": "decimal"
+									},
+									{
+										"key": "15",
+										"name": "UnitMeasure",
+										"type": "string"
+									},
+									{
+										"key": "16",
+										"name": "LoadDate",
+										"type": "timestamp"
+									}
+								],
+								"truncated": false
+							},
+							"isSummary": false,
+							"language": "scala"
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "sum",
+									"categoryFieldKeys": [
+										"1"
+									],
+									"seriesFieldKeys": [
+										"0"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/edc28f36-9160-4500-b465-77e4ca43b417/resourceGroups/rg-openclassanalytics/providers/Microsoft.Synapse/workspaces/synopenclassanalytics/bigDataPools/DataProcess",
+				"name": "DataProcess",
+				"type": "Spark",
+				"endpoint": "https://synopenclassanalytics.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/DataProcess",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 10,
+				"cores": 8,
+				"memory": 56,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"# PySpark DataFrame\r\n",
+					"df = spark.read.load('abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet', format='parquet')\r\n",
+					"display(df.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 69
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# conteo Dataframe estático\r\n",
+					"df.count()"
+				],
+				"attachments": null,
+				"execution_count": 70
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Activamos la opción para inferir esquema de forma predeterminada\r\n",
+					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
+				],
+				"attachments": null,
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Streaming DataFrame\r\n",
+					"df_stream = spark \\\r\n",
+					"    .readStream \\\r\n",
+					"    .format('parquet') \\\r\n",
+					"    .load('abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet')"
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_stream.isStreaming"
+				],
+				"attachments": null,
+				"execution_count": 73
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_stream.writeStream.queryName(\"Sales_2\").format(\"memory\").start()"
+				],
+				"attachments": null,
+				"execution_count": 75
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"spark.sql(\"select count(1) from Sales_2\").show()"
+				],
+				"attachments": null,
+				"execution_count": 78
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_proceess = df_stream.writeStream.format(\"delta\") \\\r\n",
+					"    .option('checkpointLocation','abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales/checkpointLocation') \\\r\n",
+					"    .option('path','abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales/') \\\r\n",
+					"    .start()"
+				],
+				"attachments": null,
+				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_proceess.status"
+				],
+				"attachments": null,
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_proceess.stop()"
+				],
+				"attachments": null,
+				"execution_count": 12
+			}
+		]
+	}
+}

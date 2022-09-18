@@ -1,0 +1,20 @@
+{
+	"name": "Demo_06_Create View",
+	"properties": {
+		"folder": {
+			"name": "Demos"
+		},
+		"content": {
+			"query": "create schema std\nCREATE VIEW [std].[sales]\n\tAS SELECT * FROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales/',\n        FORMAT = 'DELTA'\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Compras",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

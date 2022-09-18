@@ -1,0 +1,205 @@
+{
+	"name": "LOAD_ENTITY_INC_STREAM_BATCH",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load delta table",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "4:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "01_load_files_to_delta_table_in_silver_stream_inc",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"database": {
+							"value": {
+								"value": "@pipeline().parameters.database",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"table": {
+							"value": {
+								"value": "@pipeline().parameters.table",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"entity": {
+							"value": {
+								"value": "@pipeline().parameters.entity",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"primarykey": {
+							"value": {
+								"value": "@pipeline().parameters.primarykey",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"partitionBy": {
+							"value": {
+								"value": "@pipeline().parameters.partitionBy",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"cleanSpecialChar": {
+							"value": {
+								"value": "@pipeline().parameters.cleanSpecialChar",
+								"type": "Expression"
+							},
+							"type": "bool"
+						},
+						"period": {
+							"value": {
+								"value": "@pipeline().parameters.custom_period",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"source_folder": {
+							"value": {
+								"value": "@pipeline().parameters.source_folder",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"path_source": {
+							"value": {
+								"value": "@pipeline().parameters.path_source",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"path_destination": {
+							"value": {
+								"value": "@pipeline().parameters.path_destination",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"metadata_columns": {
+							"value": {
+								"value": "@pipeline().parameters.metada_columns",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"repartition_num_files": {
+							"value": {
+								"value": "@pipeline().parameters.repartition_num_files",
+								"type": "Expression"
+							},
+							"type": "int"
+						},
+						"level": {
+							"value": {
+								"value": "@pipeline().parameters.level",
+								"type": "Expression"
+							},
+							"type": "string"
+						},
+						"type_process": {
+							"value": {
+								"value": "@pipeline().parameters.type_process",
+								"type": "Expression"
+							},
+							"type": "string"
+						}
+					},
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "DataProcess",
+						"type": "BigDataPoolReference"
+					},
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"numExecutors": null
+				}
+			}
+		],
+		"parameters": {
+			"table": {
+				"type": "string",
+				"defaultValue": "Sales"
+			},
+			"database": {
+				"type": "string",
+				"defaultValue": "Cornerchy"
+			},
+			"entity": {
+				"type": "string"
+			},
+			"primarykey": {
+				"type": "string",
+				"defaultValue": "SaleLineId"
+			},
+			"partitionBy": {
+				"type": "string",
+				"defaultValue": "Date"
+			},
+			"cleanSpecialChar": {
+				"type": "bool",
+				"defaultValue": false
+			},
+			"source_folder": {
+				"type": "string",
+				"defaultValue": "Cornerchy_OLTP/Sales/"
+			},
+			"path_destination": {
+				"type": "string",
+				"defaultValue": "abfss://std@adlsopenclassanalytics.dfs.core.windows.net/"
+			},
+			"path_source": {
+				"type": "string",
+				"defaultValue": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/"
+			},
+			"custom_period": {
+				"type": "string",
+				"defaultValue": "*/*/*"
+			},
+			"metada_columns": {
+				"type": "string",
+				"defaultValue": "\"load_date, type_process, filename\""
+			},
+			"repartition_num_files": {
+				"type": "string",
+				"defaultValue": "1"
+			},
+			"level": {
+				"type": "string",
+				"defaultValue": "month"
+			},
+			"type_process": {
+				"type": "string",
+				"defaultValue": "full"
+			}
+		},
+		"variables": {
+			"period": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Data Process"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-06-16T09:52:46Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

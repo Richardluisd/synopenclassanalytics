@@ -1,0 +1,105 @@
+{
+	"name": "storage_mng_functions",
+	"properties": {
+		"folder": {
+			"name": "includes"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "3acc0d67-3f68-496e-9697-9edb72593a1d"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"source": [
+					"## storage_mng_functions\n",
+					"\n",
+					"undefined\n",
+					""
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"**Importación de librerías necesarias**"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql.types import *\n",
+					"from pyspark.sql.functions import substring, isnull, col, regexp_replace, current_timestamp, lit, month, dayofmonth, year, to_date, lpad, input_file_name, coalesce \n",
+					"import pyspark.sql.functions as F\n",
+					"from notebookutils import mssparkutils\n",
+					"from delta import *\n",
+					"from datetime import datetime, timedelta, date"
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"**File Storage maintenance**"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Compaction to a single file per partition\n",
+					"def compact_delta_table_storage(path_destination_completed, repartition_num_files):\n",
+					"    (spark.read\n",
+					"    .format(\"delta\")\n",
+					"    .load(path_destination_completed)\n",
+					"    .repartition(repartition_num_files)\n",
+					"    .write\n",
+					"    .option(\"dataChange\", \"false\")\n",
+					"    .format(\"delta\")\n",
+					"    .mode(\"overwrite\")\n",
+					"    .save(path_destination_completed))\n",
+					"\n",
+					"    # Remove files no longer referenced by a Delta table\n",
+					"    deltaTable = DeltaTable.forPath(spark, path_destination_completed)\n",
+					"    deltaTable.vacuum()"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

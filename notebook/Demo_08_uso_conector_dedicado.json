@@ -1,0 +1,619 @@
+{
+	"name": "Demo_08_uso_conector_dedicado",
+	"properties": {
+		"description": "Ejemplo de ingesta sobre pool dedicado mediante el conecto Apache Spark",
+		"folder": {
+			"name": "Demos"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "DataProcess",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 1,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "7a61f37f-80e9-423b-bfa1-a20cc2534386"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"5dfe19d5-f2e4-4c06-97a9-b9c95bbf9cd4": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"0": "2362395",
+										"1": "10885695",
+										"2": "5",
+										"3": "-",
+										"4": "834AD77B-154F-46DF",
+										"5": "2019-01-01 10:01:01",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "901",
+										"10": "03000097",
+										"11": "69A6342D91684F25984D",
+										"12": "3.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:01.343",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362394",
+										"1": "10885687",
+										"2": "4",
+										"3": "-",
+										"4": "E6FCB3FC-81C5-474E",
+										"5": "2019-01-01 10:01:00",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "009",
+										"10": "01000065",
+										"11": "9D657354A95149E8A9C6",
+										"12": "2.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:00.783",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362413",
+										"1": "10885774",
+										"2": "1",
+										"3": "-",
+										"4": "1A7186EF-C8A2-443D",
+										"5": "2019-01-01 10:01:10",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "003",
+										"10": "10100245",
+										"11": "230645FFF56E47EA9208",
+										"12": "5.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:10.91",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362392",
+										"1": "10885674",
+										"2": "6",
+										"3": "-",
+										"4": "7B423C3C-FF6F-46EE",
+										"5": "2019-01-01 10:00:59",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "911",
+										"10": "07000873",
+										"11": "AC9713443DF949A7B231",
+										"12": "3.000000",
+										"13": "0.0352",
+										"14": "3.6000",
+										"15": "U",
+										"16": "2019-07-21 10:00:59.72",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362428",
+										"1": "10885843",
+										"2": "2",
+										"3": "-",
+										"4": "F7583327-7758-48A1",
+										"5": "2019-01-01 10:01:18",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "901",
+										"10": "09004403",
+										"11": "DDDB119354D149E99F62",
+										"12": "3.000000",
+										"13": "0.0352",
+										"14": "1.1867",
+										"15": "U",
+										"16": "2019-07-21 10:01:18.95",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362374",
+										"1": "10885572",
+										"2": "1",
+										"3": "-",
+										"4": "F8F8A0E7-8A1F-4605",
+										"5": "2019-01-01 10:00:50",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1000",
+										"9": "003",
+										"10": "02000149",
+										"11": "C8AB228B7BB64CD181FD",
+										"12": "2.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:00:50.693",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362457",
+										"1": "10885977",
+										"2": "1",
+										"3": "-",
+										"4": "B00CBB03-5607-4716",
+										"5": "2019-01-01 10:01:33",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "009",
+										"10": "10100464",
+										"11": "37576F8013274FDAA55D",
+										"12": "2.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:33.303",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362467",
+										"1": "10886026",
+										"2": "2",
+										"3": "-",
+										"4": "7113F14C-F2C8-45F7",
+										"5": "2019-01-01 10:01:38",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "911",
+										"10": "07000273",
+										"11": "FBE6B4A5EE694281B1F3",
+										"12": "6.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:38.927",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362394",
+										"1": "10885688",
+										"2": "5",
+										"3": "-",
+										"4": "E6FCB3FC-81C5-474E",
+										"5": "2019-01-01 10:01:00",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "009",
+										"10": "09001834",
+										"11": "9D657354A95149E8A9C6",
+										"12": "2.000000",
+										"13": "0.0352",
+										"14": "0.0000",
+										"15": "U",
+										"16": "2019-07-21 10:01:00.783",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									},
+									{
+										"0": "2362397",
+										"1": "10885705",
+										"2": "5",
+										"3": "-",
+										"4": "D9A6DC8F-D7CC-482F",
+										"5": "2019-01-01 10:01:02",
+										"6": "2019-01-01",
+										"7": "20190101",
+										"8": "1001",
+										"9": "911",
+										"10": "12000075",
+										"11": "498E9962340544A388EA",
+										"12": "4.000000",
+										"13": "0.0352",
+										"14": "18.2300",
+										"15": "U",
+										"16": "2019-07-21 10:01:02.517",
+										"17": "abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/2019/01/01/sales_2019_01_01.parquet",
+										"18": "2019",
+										"19": "01",
+										"20": "2022-06-16 11:34:56.207",
+										"21": "inc"
+									}
+								],
+								"schema": [
+									{
+										"key": "0",
+										"name": "SaleId",
+										"type": "int"
+									},
+									{
+										"key": "1",
+										"name": "SaleLineId",
+										"type": "bigint"
+									},
+									{
+										"key": "2",
+										"name": "InvoiceLine",
+										"type": "int"
+									},
+									{
+										"key": "3",
+										"name": "OldTicket",
+										"type": "string"
+									},
+									{
+										"key": "4",
+										"name": "InvoiceCode",
+										"type": "string"
+									},
+									{
+										"key": "5",
+										"name": "DateTime",
+										"type": "timestamp"
+									},
+									{
+										"key": "6",
+										"name": "Date",
+										"type": "date"
+									},
+									{
+										"key": "7",
+										"name": "DateKey",
+										"type": "int"
+									},
+									{
+										"key": "8",
+										"name": "HourKey",
+										"type": "int"
+									},
+									{
+										"key": "9",
+										"name": "StoreCode",
+										"type": "string"
+									},
+									{
+										"key": "10",
+										"name": "ProductCode",
+										"type": "string"
+									},
+									{
+										"key": "11",
+										"name": "CustomerCode",
+										"type": "string"
+									},
+									{
+										"key": "12",
+										"name": "Quantity",
+										"type": "decimal"
+									},
+									{
+										"key": "13",
+										"name": "SalePrice",
+										"type": "decimal"
+									},
+									{
+										"key": "14",
+										"name": "PurchasePrice",
+										"type": "decimal"
+									},
+									{
+										"key": "15",
+										"name": "UnitMeasure",
+										"type": "string"
+									},
+									{
+										"key": "16",
+										"name": "LoadDate",
+										"type": "timestamp"
+									},
+									{
+										"key": "17",
+										"name": "filename",
+										"type": "string"
+									},
+									{
+										"key": "18",
+										"name": "Date_year",
+										"type": "int"
+									},
+									{
+										"key": "19",
+										"name": "Date_month",
+										"type": "string"
+									},
+									{
+										"key": "20",
+										"name": "load_date",
+										"type": "timestamp"
+									},
+									{
+										"key": "21",
+										"name": "type_process",
+										"type": "string"
+									}
+								],
+								"truncated": false
+							},
+							"isSummary": false,
+							"language": "scala"
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "sum",
+									"categoryFieldKeys": [
+										"1"
+									],
+									"seriesFieldKeys": [
+										"0"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/edc28f36-9160-4500-b465-77e4ca43b417/resourceGroups/rg-openclassanalytics/providers/Microsoft.Synapse/workspaces/synopenclassanalytics/bigDataPools/DataProcess",
+				"name": "DataProcess",
+				"type": "Spark",
+				"endpoint": "https://synopenclassanalytics.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/DataProcess",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 10,
+				"cores": 8,
+				"memory": 56,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 1
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **Ejemplo de ingesta sobre pool dedicado mediante conector Apache Spark**"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Añadimos la referencia a las librerías necesarias"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import com.microsoft.spark.sqlanalytics\r\n",
+					"from com.microsoft.spark.sqlanalytics.Constants import Constants"
+				],
+				"attachments": null,
+				"execution_count": 1
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Parámetros y valores que necesitaremos"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Definimos la ruta donde se encuentran los datos de ventas dentro del data lake\r\n",
+					"adls_sales_data_path = \"abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales/\"\r\n",
+					"\r\n",
+					"# Punto de conexión para nuestro pool dedicado\r\n",
+					"dpool_endpoint = \"synopenclassanalytics.sql.azuresynapse.net\"\r\n",
+					"\r\n",
+					"# Ruta de almacenamiento temporal utilizada durante la ingesta\r\n",
+					"adls_tmp_storage = \"abfss://synapsews@adlsopenclassanalytics.dfs.core.windows.net/conector_tmp_staging/\"\r\n",
+					"\r\n",
+					"# Base de datos, esquema y tabla sobre la que deseamos volcar\r\n",
+					"dpool_database_target = \"SummitDedicatedPool.dbo.Ejemplo_ingesta_conector\""
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Preparación del dataframe"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# Leemos la información de ventas de la capa estándar en formato delta (para el ejemplo limitada a las 1000 primeras filas)\r\n",
+					"sales_sample_data = spark.read.format(\"delta\").load(adls_sales_data_path).limit(1000)\r\n",
+					"\r\n",
+					"# Muestra de las 10 primeras filas leídas\r\n",
+					"display(sales_sample_data.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 3
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Escritura sobre el pool dedicado"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Configuración de la solicitud para escribir sobre pool SQL dedicado de Synapse\r\n",
+					"# En este caso, nos basamos en un volcado vía autenticación a través de AAD sobre una tabla interna\r\n",
+					"(sales_sample_data.write\r\n",
+					" # Proporcionamos el endpoint para la conexión contra el pool dedicado\r\n",
+					" .option(Constants.SERVER, dpool_endpoint)\r\n",
+					" # Opcionalmente, podemos especificar una ruta temporal de almacenamiento utilizada durante la escritura\r\n",
+					" .option(Constants.TEMP_FOLDER, adls_tmp_storage)\r\n",
+					" # Especificamos el método de volcado según lo que precisemos\r\n",
+					" # las opciones disponibles son \"error\" or \"errorifexists\" (método por defecto), \"overwrite\", \"append\", \"ignore\".\r\n",
+					" # Para nuestro caso seleccionaremos el modo \"overwrite\" para sobrescribir la información existente\r\n",
+					" # podemos encontrar más información en https://spark.apache.org/docs/latest/sql-data-sources-load-save-functions.html#save-modes\r\n",
+					" .mode(\"overwrite\")\r\n",
+					" # Obligatoriamente, deberemos especificar la tabla y esquema sobre la que vamos a escribir, incluyendo la base de datos\r\n",
+					" .synapsesql(dpool_database_target, Constants.INTERNAL))"
+				],
+				"attachments": null,
+				"execution_count": 4
+			}
+		]
+	}
+}
