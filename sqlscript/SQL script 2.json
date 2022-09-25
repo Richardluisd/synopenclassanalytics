@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "-- COUNT\nSELECT [Date], COUNT(1)\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales/',\n        FORMAT = 'DELTA'\n    ) AS [result]\ngroup by [Date]\norder by [Date] desc",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -11,17 +11,17 @@
 			"type": "BigDataPoolReference"
 		},
 		"sessionProperties": {
-			"driverMemory": "56g",
-			"driverCores": 8,
-			"executorMemory": "56g",
-			"executorCores": 8,
-			"numExecutors": 2,
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 1,
 			"runAsWorkspaceSystemIdentity": false,
 			"conf": {
 				"spark.dynamicAllocation.enabled": "false",
-				"spark.dynamicAllocation.minExecutors": "2",
-				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "14cdb6a7-640f-463d-9287-4455ddc5c1e8"
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "ae43cbc5-4250-47e6-a0fb-ee6e23fd9716"
 			}
 		},
 		"metadata": {
@@ -48,12 +48,12 @@
 					"authHeader": null
 				},
 				"sparkVersion": "3.1",
-				"nodeCount": 10,
+				"nodeCount": 3,
 				"cores": 8,
 				"memory": 56,
 				"extraHeader": null
 			},
-			"sessionKeepAliveTimeout": 30
+			"sessionKeepAliveTimeout": 120
 		},
 		"cells": [
 			{
@@ -79,7 +79,7 @@
 					"%run includes/common_functions"
 				],
 				"attachments": null,
-				"execution_count": 5
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -87,7 +87,7 @@
 					"%run includes/stream_functions"
 				],
 				"attachments": null,
-				"execution_count": 6
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -95,7 +95,7 @@
 					"%run includes/storage_mng_functions"
 				],
 				"attachments": null,
-				"execution_count": 4
+				"execution_count": 3
 			},
 			{
 				"cell_type": "markdown",
@@ -114,7 +114,7 @@
 				"source": [
 					"# Entity Parameters \n",
 					"database = \"Cornerchy\"\n",
-					"table = \"Sales\"\n",
+					"table = \"Sales_03_04\"\n",
 					"entity = \"\"\n",
 					"primarykey = \"SaleLineId\"\n",
 					"partitionBy = \"Date\"\n",
@@ -132,7 +132,7 @@
 					"typeProcess = \"inc\" "
 				],
 				"attachments": null,
-				"execution_count": 7
+				"execution_count": 5
 			},
 			{
 				"cell_type": "markdown",
@@ -155,7 +155,7 @@
 					"print(path_deltaCheckpointPath)"
 				],
 				"attachments": null,
-				"execution_count": 8
+				"execution_count": 6
 			},
 			{
 				"cell_type": "markdown",
@@ -188,7 +188,7 @@
 					"dfProcStream=append_stream_trigger_one(path_source_completed, path_deltaCheckpointPath, path_destination_completed)"
 				],
 				"attachments": null,
-				"execution_count": 11
+				"execution_count": 7
 			},
 			{
 				"cell_type": "markdown",

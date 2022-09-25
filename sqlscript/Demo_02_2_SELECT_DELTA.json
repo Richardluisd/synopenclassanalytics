@@ -5,7 +5,7 @@
 			"name": "Demos"
 		},
 		"content": {
-			"query": "-- TOP 100\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales/',\n        FORMAT = 'DELTA'\n    ) AS [result]\n\n-- COUNT\nSELECT COUNT(1)\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales/',\n        FORMAT = 'DELTA'\n    ) AS [result]\n\n\n-- COUNT\nSELECT [Date], COUNT(1)\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales/',\n        FORMAT = 'DELTA'\n    ) AS [result]\ngroup by [Date]\norder by [Date] desc",
+			"query": "-- TOP 100\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales_03_04/',\n        FORMAT = 'DELTA'\n    ) AS [result]\n\n-- COUNT\nSELECT COUNT(1)\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales_03_04/',\n        FORMAT = 'DELTA'\n    ) AS [result]\n\n\n-- COUNT\nSELECT [Date], COUNT(1)\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/Cornerchy/Sales_03_04/',\n        FORMAT = 'DELTA'\n    ) AS [result]\ngroup by [Date]\norder by [Date] desc",
 			"metadata": {
 				"language": "sql"
 			},

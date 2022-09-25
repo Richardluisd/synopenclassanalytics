@@ -1,5 +1,5 @@
 {
-	"name": "Demo_07_configuracion_dinamica",
+	"name": "Demo_07_configuracion_dinamica_config2",
 	"properties": {
 		"description": "Notebook for demonstration of Spark session configuration from Synapse",
 		"folder": {
@@ -21,8 +21,8 @@
 			"conf": {
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
-				"spark.dynamicAllocation.maxExecutors": "3",
-				"spark.autotune.trackingId": "faa2229c-6ace-4649-8e61-2a0cc90abee5"
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "ac248534-7703-4efa-bb0b-eee299aa9d36"
 			}
 		},
 		"metadata": {
@@ -84,27 +84,27 @@
 					"    \"driverCores\": \r\n",
 					"    { \r\n",
 					"        \"activityParameterName\": \"customDriverCores\", \r\n",
-					"        \"defaultValue\": 4 //Valores recomendados: [4, 8, 16, 32, 64, 80]\r\n",
+					"        \"defaultValue\": 8 //Valores recomendados: [4, 8, 16, 32, 64, 80]\r\n",
 					"    }, \r\n",
 					"    \"driverMemory\": \r\n",
 					"    { \r\n",
 					"        \"activityParameterName\": \"customDriverMemory\", \r\n",
-					"        \"defaultValue\": \"28g\" // Valores recomendados: [\"28g\", \"56g\", \"112g\", \"224g\", \"400g\", \"472g\"]\r\n",
+					"        \"defaultValue\": \"56g\" // Valores recomendados: [\"28g\", \"56g\", \"112g\", \"224g\", \"400g\", \"472g\"]\r\n",
 					"    },\r\n",
 					"    \"numExecutors\":\r\n",
 					"    {\r\n",
 					"        \"activityParameterName\": \"customNumExecutors\", \r\n",
-					"        \"defaultValue\": 2 \r\n",
+					"        \"defaultValue\": 1 \r\n",
 					"    },\r\n",
 					"    \"executorCores\":\r\n",
 					"    {\r\n",
 					"        \"activityParameterName\": \"customExecutorCores\", \r\n",
-					"        \"defaultValue\": 4 \r\n",
+					"        \"defaultValue\": 8 \r\n",
 					"    },\r\n",
 					"    \"executorMemory\":\r\n",
 					"    {\r\n",
 					"        \"activityParameterName\": \"customExecutorMemory\", \r\n",
-					"        \"defaultValue\": \"28g\" \r\n",
+					"        \"defaultValue\": \"56g\" \r\n",
 					"    }\r\n",
 					"}"
 				],
