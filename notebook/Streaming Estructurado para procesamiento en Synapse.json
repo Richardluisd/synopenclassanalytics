@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "e2f0e223-ecad-4297-90b3-cf996cda877b"
+				"spark.autotune.trackingId": "95f01b50-fda0-4e96-a1a4-0d60c19ede79"
 			}
 		},
 		"metadata": {
@@ -113,7 +113,7 @@
 				"source": [
 					"from delta import *"
 				],
-				"execution_count": 4
+				"execution_count": 40
 			},
 			{
 				"cell_type": "code",
@@ -206,7 +206,7 @@
 				"source": [
 					"maxFilesPerTrigger = 1\r\n",
 					"path_source_completed = 'abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet'\r\n",
-					"primarykey = 'saleslineid'\r\n",
+					"primarykey = 'salelineid'\r\n",
 					"metadata_columns = 'load_date, type_process'\r\n",
 					"typeProcess = 'inc'\r\n",
 					"partitionBy = None\r\n",
@@ -215,7 +215,7 @@
 					"repartition_num_files = 32\r\n",
 					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
 				],
-				"execution_count": 28
+				"execution_count": 47
 			},
 			{
 				"cell_type": "code",
@@ -247,7 +247,7 @@
 					"    except Exception as e:\r\n",
 					"        return False"
 				],
-				"execution_count": 29
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -274,6 +274,7 @@
 					"        microBatchOutputDF = microBatchOutputDF.withColumn(\"type_process\", lit(typeProcess))\r\n",
 					"    \r\n",
 					"    if checkDeltaFolder(path_destination_completed):\r\n",
+					"        print (f\"upsertToDelta: {batchId} - Merge\")\r\n",
 					"        curatedTable = DeltaTable.forPath(spark, path_destination_completed)\r\n",
 					"        curatedTable.alias(\"deltaTable\").merge(\r\n",
 					"            microBatchOutputDF.alias(\"incTable\"),primaryKeys) \\\r\n",
@@ -282,11 +283,10 @@
 					"        .execute()\r\n",
 					"    else:\r\n",
 					"        print (f\"upsertToDelta: {batchId} - Full\")\r\n",
-					"    \r\n",
-					"    if partitionBy == None or partitionBy == \"\":\r\n",
-					"        microBatchOutputDF.write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
+					"        if partitionBy == None or partitionBy == \"\":\r\n",
+					"            microBatchOutputDF.write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
 				],
-				"execution_count": 30
+				"execution_count": 44
 			},
 			{
 				"cell_type": "code",
@@ -316,7 +316,7 @@
 					"    .awaitTermination()\r\n",
 					")"
 				],
-				"execution_count": 21
+				"execution_count": 45
 			},
 			{
 				"cell_type": "code",
@@ -390,7 +390,7 @@
 					"print(\"stopping stream...\")\r\n",
 					"df_proceess.stop()"
 				],
-				"execution_count": 36
+				"execution_count": 48
 			}
 		]
 	}
