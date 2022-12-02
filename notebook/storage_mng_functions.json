@@ -40,15 +40,13 @@
 					"\n",
 					"undefined\n",
 					""
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Importación de librerías necesarias**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -60,23 +58,19 @@
 					"from delta import *\n",
 					"from datetime import datetime, timedelta, date"
 				],
-				"attachments": null,
 				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**File Storage maintenance**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -96,9 +90,7 @@
 					"    # Remove files no longer referenced by a Delta table\n",
 					"    deltaTable = DeltaTable.forPath(spark, path_destination_completed)\n",
 					"    deltaTable.vacuum()"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			}
 		]
 	}

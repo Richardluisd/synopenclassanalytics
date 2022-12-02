@@ -17,11 +17,14 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d91d4d58-c683-4a60-bda5-378ca5a86b08"
+				"spark.autotune.trackingId": "0e389758-dadd-42fc-88a4-91ad5befe012"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
@@ -40,15 +43,13 @@
 					"\n",
 					"undefined\n",
 					""
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Importación de librerías necesarias**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -60,15 +61,13 @@
 					"from delta import *\n",
 					"from datetime import datetime, timedelta, date"
 				],
-				"attachments": null,
 				"execution_count": 2
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Definición de funciones**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -128,7 +127,7 @@
 					"\n",
 					"# Generate list patition field.\n",
 					"def generatePartitionField(partition_column, level):\n",
-					"    if level == \"day\":\n",
+					"    if level == \"date\":\n",
 					"        return [f\"{partition_column}_year\",f\"{partition_column}_month\",f\"{partition_column}_day\"]\n",
 					"    if level == \"month\":\n",
 					"        return [f\"{partition_column}_year\",f\"{partition_column}_month\"]\n",
@@ -267,9 +266,7 @@
 					"def obtenerMapaFunciones():\n",
 					"    mapaFuncionesQa = {'full':loadFull,'inc':loadInc,'append':loadAppend, 'csv': loadCsv}\n",
 					"    return mapaFuncionesQa"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			}
 		]
 	}

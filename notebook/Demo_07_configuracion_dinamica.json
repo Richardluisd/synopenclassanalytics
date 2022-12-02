@@ -107,9 +107,7 @@
 					"        \"defaultValue\": \"28g\" \r\n",
 					"    }\r\n",
 					"}"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			},
 			{
 				"cell_type": "markdown",
@@ -122,8 +120,7 @@
 				},
 				"source": [
 					"**Parámetros de entrada**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -159,7 +156,6 @@
 					"repartition_num_files = 1\r\n",
 					"typeProcess = \"full\" "
 				],
-				"attachments": null,
 				"execution_count": 4
 			},
 			{
@@ -173,8 +169,7 @@
 				},
 				"source": [
 					"**Asignación de valores y generación de constantes**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -200,7 +195,6 @@
 					"print(path_destination_completed)\r\n",
 					"print(path_deltaCheckpointPath)"
 				],
-				"attachments": null,
 				"execution_count": 5
 			},
 			{
@@ -214,8 +208,7 @@
 				},
 				"source": [
 					"**Ejecución de hilo para mantener la sesión activa**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -236,7 +229,6 @@
 					"\r\n",
 					"time.sleep(15000)"
 				],
-				"attachments": null,
 				"execution_count": 6
 			}
 		]

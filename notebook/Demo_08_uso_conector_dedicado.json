@@ -450,8 +450,7 @@
 				},
 				"source": [
 					"# **Ejemplo de ingesta sobre pool dedicado mediante conector Apache Spark**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "markdown",
@@ -464,8 +463,7 @@
 				},
 				"source": [
 					"### Añadimos la referencia a las librerías necesarias"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -484,7 +482,6 @@
 					"import com.microsoft.spark.sqlanalytics\r\n",
 					"from com.microsoft.spark.sqlanalytics.Constants import Constants"
 				],
-				"attachments": null,
 				"execution_count": 1
 			},
 			{
@@ -498,8 +495,7 @@
 				},
 				"source": [
 					"### Parámetros y valores que necesitaremos"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -527,7 +523,6 @@
 					"# Base de datos, esquema y tabla sobre la que deseamos volcar\r\n",
 					"dpool_database_target = \"SummitDedicatedPool.dbo.Ejemplo_ingesta_conector\""
 				],
-				"attachments": null,
 				"execution_count": 2
 			},
 			{
@@ -541,8 +536,7 @@
 				},
 				"source": [
 					"### Preparación del dataframe"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -565,7 +559,6 @@
 					"# Muestra de las 10 primeras filas leídas\r\n",
 					"display(sales_sample_data.limit(10))"
 				],
-				"attachments": null,
 				"execution_count": 3
 			},
 			{
@@ -579,8 +572,7 @@
 				},
 				"source": [
 					"### Escritura sobre el pool dedicado"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -611,7 +603,6 @@
 					" # Obligatoriamente, deberemos especificar la tabla y esquema sobre la que vamos a escribir, incluyendo la base de datos\r\n",
 					" .synapsesql(dpool_database_target, Constants.INTERNAL))"
 				],
-				"attachments": null,
 				"execution_count": 4
 			}
 		]

@@ -203,7 +203,7 @@
 			"name": "Data Process"
 		},
 		"annotations": [],
-		"lastPublishTime": "2022-06-16T09:52:49Z"
+		"lastPublishTime": "2022-09-30T11:23:42Z"
 	},
 	"type": "Microsoft.Synapse/workspaces/pipelines"
 }

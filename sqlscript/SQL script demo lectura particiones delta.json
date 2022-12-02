@@ -1,0 +1,18 @@
+{
+	"name": "SQL script demo lectura particiones delta",
+	"properties": {
+		"description": "Ejemplos de como se eliminan particiones en la lectura de formato delta, aún estando en niveles inferiores.",
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://adlsopenclassanalytics.dfs.core.windows.net/std/test/Sales/',\n        FORMAT = 'DELTA'\n    ) \n    /*WITH (\n        SaleId int,\n        SalesLineId int,\n        Date datetime,\n        Date_year int,\n        Date_month varchar(2),\n        Date_date varchar(2)\n    )*/ AS [result]\nwhere Date = '2019-01-01'\n--where Date_date = '2019-01-01'\n--where Date_year = '2019' and DateTime_month = '01' and DateTime_day = '01'\n\n--where Date >= '2019-01-01' and Date < '2019-02-01'\n\n--where Date_date >= '2019-01-01' and DateTime_date < '2019-02-01'\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

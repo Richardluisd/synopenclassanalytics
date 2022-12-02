@@ -373,7 +373,6 @@
 					"df = spark.read.load('abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet', format='parquet')\r\n",
 					"display(df.limit(10))"
 				],
-				"attachments": null,
 				"execution_count": 2
 			},
 			{
@@ -393,7 +392,6 @@
 					"# conteo Dataframe estático\r\n",
 					"df.count()"
 				],
-				"attachments": null,
 				"execution_count": 4
 			},
 			{
@@ -413,7 +411,6 @@
 					"# Activamos la opción para inferir esquema de forma predeterminada\r\n",
 					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
 				],
-				"attachments": null,
 				"execution_count": 5
 			},
 			{
@@ -436,7 +433,6 @@
 					"    .format('parquet') \\\r\n",
 					"    .load('abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet')"
 				],
-				"attachments": null,
 				"execution_count": 6
 			},
 			{
@@ -455,7 +451,6 @@
 				"source": [
 					"df_stream.isStreaming"
 				],
-				"attachments": null,
 				"execution_count": 7
 			},
 			{
@@ -474,7 +469,6 @@
 				"source": [
 					"df_stream.writeStream.queryName(\"Sales_2\").format(\"memory\").start()"
 				],
-				"attachments": null,
 				"execution_count": 8
 			},
 			{
@@ -494,7 +488,6 @@
 				"source": [
 					"spark.sql(\"select count(1) from Sales_2\").show()"
 				],
-				"attachments": null,
 				"execution_count": 9
 			},
 			{
@@ -516,7 +509,6 @@
 					"    .option('path','abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/') \\\r\n",
 					"    .start()"
 				],
-				"attachments": null,
 				"execution_count": 10
 			},
 			{
@@ -543,7 +535,6 @@
 					"group by Date\r\n",
 					"order by Date desc"
 				],
-				"attachments": null,
 				"execution_count": 18
 			},
 			{
@@ -568,7 +559,6 @@
 					"select * from delta.`abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/`\r\n",
 					"order by Date desc"
 				],
-				"attachments": null,
 				"execution_count": 11
 			},
 			{
@@ -587,7 +577,6 @@
 				"source": [
 					"df_proceess.status"
 				],
-				"attachments": null,
 				"execution_count": 19
 			},
 			{
@@ -606,7 +595,6 @@
 				"source": [
 					"df_proceess.stop()"
 				],
-				"attachments": null,
 				"execution_count": 12
 			}
 		]

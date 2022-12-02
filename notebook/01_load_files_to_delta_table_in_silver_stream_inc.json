@@ -63,22 +63,19 @@
 					"\n",
 					"Manual notebook for the first load where many files have to be processed\n",
 					""
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Includes**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"%run includes/common_functions"
 				],
-				"attachments": null,
 				"execution_count": 35
 			},
 			{
@@ -86,7 +83,6 @@
 				"source": [
 					"%run includes/stream_functions"
 				],
-				"attachments": null,
 				"execution_count": 36
 			},
 			{
@@ -94,15 +90,13 @@
 				"source": [
 					"%run includes/storage_mng_functions"
 				],
-				"attachments": null,
 				"execution_count": 37
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Parameters**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -131,15 +125,13 @@
 					"repartition_num_files = 1\n",
 					"typeProcess = \"full\" "
 				],
-				"attachments": null,
 				"execution_count": 38
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Generation of constants**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -154,15 +146,13 @@
 					"print(path_destination_completed)\n",
 					"print(path_deltaCheckpointPath)"
 				],
-				"attachments": null,
 				"execution_count": 39
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Main rest of loads**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -178,15 +168,13 @@
 					"dfProcStream=inc_stream_one_file_per_trigger(path_source_completed, path_deltaCheckpointPath, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files)\n",
 					"time.sleep(15)"
 				],
-				"attachments": null,
 				"execution_count": 41
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Stop stream**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -201,7 +189,6 @@
 					"print(\"stopping stream...\")\n",
 					"dfProcStream.stop()"
 				],
-				"attachments": null,
 				"execution_count": 42
 			}
 		]

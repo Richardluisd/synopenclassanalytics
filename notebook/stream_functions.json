@@ -63,15 +63,13 @@
 					"\n",
 					"undefined\n",
 					""
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Importación de librerías necesarias**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -83,23 +81,19 @@
 					"from delta import *\n",
 					"from datetime import datetime, timedelta, date"
 				],
-				"attachments": null,
 				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			},
 			{
 				"cell_type": "markdown",
 				"source": [
 					"**Definición de funciones**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -203,9 +197,7 @@
 					"    .start() \\\n",
 					"    .awaitTermination()\n",
 					")"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			}
 		]
 	}

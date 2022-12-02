@@ -48,17 +48,14 @@
 				},
 				"source": [
 					"**Includes & references**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"import com.microsoft.spark.sqlanalytics\r\n",
 					"from com.microsoft.spark.sqlanalytics.Constants import Constants"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			},
 			{
 				"cell_type": "markdown",
@@ -71,8 +68,7 @@
 				},
 				"source": [
 					"**Function definitions**"
-				],
-				"attachments": null
+				]
 			},
 			{
 				"cell_type": "code",
@@ -129,9 +125,7 @@
 					"def genProcessMapping():\r\n",
 					"    processMapping = {'01':fullLoad,'02':incLoad}\r\n",
 					"    return processMapping"
-				],
-				"attachments": null,
-				"execution_count": null
+				]
 			}
 		]
 	}
