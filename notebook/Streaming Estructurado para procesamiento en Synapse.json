@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "46fc0fe5-2991-410d-b48e-ece7cf7b035d"
+				"spark.autotune.trackingId": "091a598f-d3e2-44f3-aa0b-32c2955b3c91"
 			}
 		},
 		"metadata": {
@@ -204,7 +204,7 @@
 					}
 				},
 				"source": [
-					"maxFilesPerTrigger = 3\r\n",
+					"maxFilesPerTrigger = 1\r\n",
 					"path_source_completed = 'abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet'\r\n",
 					"primarykey = 'salelineid'\r\n",
 					"metadata_columns = 'load_date, type_process'\r\n",
@@ -215,7 +215,7 @@
 					"repartition_num_files = 32\r\n",
 					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
 				],
-				"execution_count": 11
+				"execution_count": 12
 			},
 			{
 				"cell_type": "code",
@@ -390,7 +390,7 @@
 					"print(\"stopping stream...\")\r\n",
 					"df_proceess.stop()"
 				],
-				"execution_count": 48
+				"execution_count": 13
 			}
 		]
 	}
