@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "36213b00-3b89-4693-a4de-602fb06d861e"
+				"spark.autotune.trackingId": "ff61e685-5643-46e8-b808-91824703ca33"
 			}
 		},
 		"metadata": {
@@ -56,7 +56,7 @@
 				"source": [
 					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
 				],
-				"execution_count": 1
+				"execution_count": 26
 			},
 			{
 				"cell_type": "code",
@@ -186,18 +186,9 @@
 					}
 				},
 				"source": [
-					"maxFilesPerTrigger = 1\r\n",
-					"path_source_completed = 'abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet'\r\n",
-					"primarykey = 'saleslineid'\r\n",
-					"metadata_columns = 'load_date, type_process'\r\n",
-					"typeProcess = 'inc'\r\n",
-					"partitionBy = None\r\n",
-					"level = 'month'\r\n",
-					"path_destination_completed = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/'\r\n",
-					"repartition_num_files = 32\r\n",
-					""
+					"from pyspark.sql.functions import substring, isnull, col, regexp_replace, current_timestamp, lit, month, dayofmonth, year, to_date, lpad, input_file_name, coalesce "
 				],
-				"execution_count": null
+				"execution_count": 16
 			},
 			{
 				"cell_type": "code",
@@ -213,11 +204,50 @@
 					}
 				},
 				"source": [
-					"allcolumns\r\n",
-					"generatePKs\r\n",
-					""
+					"maxFilesPerTrigger = 1\r\n",
+					"path_source_completed = 'abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet'\r\n",
+					"primarykey = 'saleslineid'\r\n",
+					"metadata_columns = 'load_date, type_process'\r\n",
+					"typeProcess = 'inc'\r\n",
+					"partitionBy = None\r\n",
+					"level = 'month'\r\n",
+					"path_destination_completed = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/'\r\n",
+					"repartition_num_files = 32\r\n",
+					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
 				],
-				"execution_count": null
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def allColumns(df, metadata_columns):\r\n",
+					"    return [column for column in df.columns if column not in metadata_columns]\r\n",
+					"    \r\n",
+					"def generatePKs(primaryKeys):\r\n",
+					"    pks_dict = dict()\r\n",
+					"    for index, value in enumerate(primaryKeys):\r\n",
+					"        pks_dict[f\"deltaTable.{value}\"] = f\"incTable.{value}\"\r\n",
+					"    return str(pks_dict).replace(\"{\", \"\").replace(\"}\",\"\").replace(\"'\",\"\").replace(\": \", \" <=> \").replace(\",\", \" and\")\r\n",
+					"\r\n",
+					"def checkDeltaFolder(path):\r\n",
+					"    try:\r\n",
+					"        DeltaTable.forPath(spark, path)\r\n",
+					"        return True\r\n",
+					"    except Exception as e:\r\n",
+					"        return False"
+				],
+				"execution_count": 19
 			},
 			{
 				"cell_type": "code",
@@ -245,17 +275,16 @@
 					"    if checkDeltaFolder(path_destination_completed):\r\n",
 					"        curatedTable = DeltaTable.forPath(spark, path_destination_completed)\r\n",
 					"        curatedTable.alias(\"deltaTable\").merge(\r\n",
-					"        microBatchOutputDF.alias(\"incTable\")\r\n",
-					"        ,primaryKeys) \\\r\n",
-					"        .whenMatchedUpdateAll() \\\r\n",
-					"        .whenNotMatchedInsertAll() \\\r\n",
+					"            microBatchOutputDF.alias(\"incTable\"),primaryKeys) \\\r\n",
+					"            .whenMatchedUpdateAll() \\\r\n",
+					"            .whenNotMatchedInsertAll() \\\r\n",
 					"        .execute()\r\n",
 					"    else:\r\n",
 					"        print (f\"upsertToDelta: {batchId} - Full\")\r\n",
 					"    if partitionBy == None or partitionBy == \"\":\r\n",
 					"        microBatchOutputDF.repartition(repartition_num_files).write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
 				],
-				"execution_count": null
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
@@ -276,14 +305,14 @@
 					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\r\n",
 					"    .writeStream.format('delta')\r\n",
 					"    .trigger(once=True) \\\r\n",
-					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files))\r\n",
+					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files, typeProcess))\r\n",
 					"    .outputMode(\"update\")\r\n",
 					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\r\n",
 					"    .start() \\\r\n",
 					"    .awaitTermination()\r\n",
 					")"
 				],
-				"execution_count": null
+				"execution_count": 21
 			},
 			{
 				"cell_type": "code",
@@ -301,7 +330,7 @@
 				"source": [
 					"df_proceess.status"
 				],
-				"execution_count": null
+				"execution_count": 24
 			},
 			{
 				"cell_type": "code",
@@ -319,7 +348,7 @@
 				"source": [
 					"df_proceess.stop()"
 				],
-				"execution_count": null
+				"execution_count": 25
 			}
 		]
 	}
