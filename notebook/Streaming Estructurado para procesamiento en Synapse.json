@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "ff61e685-5643-46e8-b808-91824703ca33"
+				"spark.autotune.trackingId": "e2f0e223-ecad-4297-90b3-cf996cda877b"
 			}
 		},
 		"metadata": {
@@ -56,7 +56,7 @@
 				"source": [
 					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
 				],
-				"execution_count": 26
+				"execution_count": 27
 			},
 			{
 				"cell_type": "code",
@@ -188,7 +188,7 @@
 				"source": [
 					"from pyspark.sql.functions import substring, isnull, col, regexp_replace, current_timestamp, lit, month, dayofmonth, year, to_date, lpad, input_file_name, coalesce "
 				],
-				"execution_count": 16
+				"execution_count": 32
 			},
 			{
 				"cell_type": "code",
@@ -215,7 +215,7 @@
 					"repartition_num_files = 32\r\n",
 					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
 				],
-				"execution_count": 18
+				"execution_count": 28
 			},
 			{
 				"cell_type": "code",
@@ -247,7 +247,7 @@
 					"    except Exception as e:\r\n",
 					"        return False"
 				],
-				"execution_count": 19
+				"execution_count": 29
 			},
 			{
 				"cell_type": "code",
@@ -272,6 +272,7 @@
 					"        primaryKeys = generatePKs(columns)\r\n",
 					"        microBatchOutputDF = microBatchOutputDF.withColumn(\"load_date\", current_timestamp())\r\n",
 					"        microBatchOutputDF = microBatchOutputDF.withColumn(\"type_process\", lit(typeProcess))\r\n",
+					"    \r\n",
 					"    if checkDeltaFolder(path_destination_completed):\r\n",
 					"        curatedTable = DeltaTable.forPath(spark, path_destination_completed)\r\n",
 					"        curatedTable.alias(\"deltaTable\").merge(\r\n",
@@ -281,10 +282,11 @@
 					"        .execute()\r\n",
 					"    else:\r\n",
 					"        print (f\"upsertToDelta: {batchId} - Full\")\r\n",
+					"    \r\n",
 					"    if partitionBy == None or partitionBy == \"\":\r\n",
-					"        microBatchOutputDF.repartition(repartition_num_files).write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
+					"        microBatchOutputDF.write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
 				],
-				"execution_count": 14
+				"execution_count": 30
 			},
 			{
 				"cell_type": "code",
@@ -297,9 +299,11 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
+					"# Opción trigger one para versiones de spark a partir de 3.3\r\n",
 					"df_proceess = (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\r\n",
 					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\r\n",
 					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\r\n",
@@ -349,6 +353,44 @@
 					"df_proceess.stop()"
 				],
 				"execution_count": 25
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Opción para simular trigger one verificando el estado del streaming\r\n",
+					"df_proceess = (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\r\n",
+					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\r\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\r\n",
+					"    .writeStream.format('delta')\r\n",
+					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files, typeProcess))\r\n",
+					"    .outputMode(\"update\")\r\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\r\n",
+					"    .start()\r\n",
+					")\r\n",
+					"\r\n",
+					"import time\r\n",
+					"print(df_proceess.isActive)\r\n",
+					"print(df_proceess.status)\r\n",
+					"time.sleep(30)\r\n",
+					"\r\n",
+					"while df_proceess.status[\"isDataAvailable\"]:\r\n",
+					"    print(\"wait for load stream...\")\r\n",
+					"    time.sleep(30)\r\n",
+					"print(\"stopping stream...\")\r\n",
+					"df_proceess.stop()"
+				],
+				"execution_count": 36
 			}
 		]
 	}
