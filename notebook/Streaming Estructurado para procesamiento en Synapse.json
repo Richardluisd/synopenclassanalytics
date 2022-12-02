@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "68ba3d07-7c16-461b-8830-73e35e66807a"
+				"spark.autotune.trackingId": "08e54316-095d-419b-bba4-c2fe06d63e08"
 			}
 		},
 		"metadata": {
@@ -113,7 +113,7 @@
 				"source": [
 					"from delta import *"
 				],
-				"execution_count": null
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -188,7 +188,7 @@
 				"source": [
 					"from pyspark.sql.functions import substring, isnull, col, regexp_replace, current_timestamp, lit, month, dayofmonth, year, to_date, lpad, input_file_name, coalesce "
 				],
-				"execution_count": null
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
@@ -215,7 +215,7 @@
 					"repartition_num_files = 32\r\n",
 					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
 				],
-				"execution_count": null
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -247,7 +247,7 @@
 					"    except Exception as e:\r\n",
 					"        return False"
 				],
-				"execution_count": null
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -286,7 +286,7 @@
 					"        if partitionBy == None or partitionBy == \"\":\r\n",
 					"            microBatchOutputDF.write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
 				],
-				"execution_count": null
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
@@ -316,7 +316,7 @@
 					"    .awaitTermination()\r\n",
 					")"
 				],
-				"execution_count": 45
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -334,7 +334,7 @@
 				"source": [
 					"df_proceess.status"
 				],
-				"execution_count": 24
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
