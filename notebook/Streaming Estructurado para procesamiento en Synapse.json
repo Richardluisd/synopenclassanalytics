@@ -1,0 +1,141 @@
+{
+	"name": "Streaming Estructurado para procesamiento en Synapse",
+	"properties": {
+		"folder": {
+			"name": "Ejemplos de publicaciones"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "DataProcess",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 1,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "df0b4e09-f2a1-44ff-a297-d53fb549d982"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/edc28f36-9160-4500-b465-77e4ca43b417/resourceGroups/rg-openclassanalytics/providers/Microsoft.Synapse/workspaces/synopenclassanalytics/bigDataPools/DataProcess",
+				"name": "DataProcess",
+				"type": "Spark",
+				"endpoint": "https://synopenclassanalytics.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/DataProcess",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 8,
+				"memory": 56,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"spark.sql(\"set spark.sql.streaming.schemaInference=true\")"
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_stream = spark \\\r\n",
+					"    .readStream \\\r\n",
+					"    .format('parquet') \\\r\n",
+					"    .load('abfss://raw@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy_OLTP/Sales/*/*/*/*.parquet')"
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_stream.isStreaming"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from delta import *"
+				],
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_proceess = df_stream.writeStream.format(\"delta\") \\\r\n",
+					"    .option('checkpointLocation','abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointLocation') \\\r\n",
+					"    .option('path','abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/') \\\r\n",
+					"    .start()"
+				],
+				"execution_count": 5
+			}
+		]
+	}
+}
