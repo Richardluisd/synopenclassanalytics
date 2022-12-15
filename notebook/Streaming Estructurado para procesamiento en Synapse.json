@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7510dee2-a015-44f8-8797-9348a3077cb5"
+				"spark.autotune.trackingId": "956b4e41-b1d3-421a-a2e8-c0f81cedc4fe"
 			}
 		},
 		"metadata": {
@@ -211,11 +211,11 @@
 					"typeProcess = 'inc'\r\n",
 					"partitionBy = None\r\n",
 					"level = 'month'\r\n",
-					"path_destination_completed = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02/'\r\n",
+					"path_destination_completed = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales/'\r\n",
 					"repartition_num_files = 32\r\n",
-					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_demo02_checkpointPath/'"
+					"path_deltaCheckpointPath = 'abfss://std@adlsopenclassanalytics.dfs.core.windows.net/Cornerchy/Sales_checkpoint/'"
 				],
-				"execution_count": 12
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -286,7 +286,61 @@
 					"        if partitionBy == None or partitionBy == \"\":\r\n",
 					"            microBatchOutputDF.write.format(\"delta\").mode(\"overwrite\").option(\"escape\",\"\\\"\").save(path_destination_completed)"
 				],
-				"execution_count": 7
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"#Optmización de escritura de ficheros, en tamaños de 128MB por defecto\r\n",
+					"spark.conf.set(\"spark.microsoft.delta.optimizeWrite.enabled\", \"true\")\r\n",
+					"\r\n",
+					"#spark.conf.set(\"spark.microsoft.delta.optimizeWrite.binSize\", \"134217728\")"
+				],
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Opción trigger one procesando en un solo lote todo lo disponible\r\n",
+					"df_proceess = (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\r\n",
+					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\r\n",
+					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\r\n",
+					"    .writeStream.format('delta')\r\n",
+					"    .trigger(once=True) \\\r\n",
+					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files, typeProcess))\r\n",
+					"    .outputMode(\"update\")\r\n",
+					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\r\n",
+					"    .start() \\\r\n",
+					"    .awaitTermination()\r\n",
+					")\r\n",
+					"\r\n",
+					"# 17 sec procesar todas las entidades (27Mb) sin optimización de escritura\r\n",
+					"# 21 sec procesar todas las entidades (27Mb) con optimización de escritura de 128Mb. Aumenta un 20% aprox.\r\n",
+					""
+				],
+				"execution_count": 16
 			},
 			{
 				"cell_type": "code",
@@ -303,20 +357,26 @@
 					"collapsed": false
 				},
 				"source": [
-					"# Opción trigger one para versiones de spark a partir de 3.3\r\n",
+					"# Opción trigger one para versiones de spark a partir de 3.3 y procesamiento por lotes\r\n",
 					"df_proceess = (spark.readStream.option(\"maxFilesPerTrigger\", maxFilesPerTrigger)\r\n",
 					"    .option(\"maxFileAge\", 0).format('parquet').option(\"inferschema\", True)\r\n",
 					"    .load(path_source_completed).withColumn(\"filename\", input_file_name())\r\n",
 					"    .writeStream.format('delta')\r\n",
-					"    .trigger(once=True) \\\r\n",
+					"    .trigger(availableNow=True) \\\r\n",
 					"    .foreachBatch(lambda microBatchOutputDF, batchId: upsertToDelta(microBatchOutputDF, batchId, primarykey, metadata_columns, partitionBy, level, path_destination_completed, repartition_num_files, typeProcess))\r\n",
 					"    .outputMode(\"update\")\r\n",
 					"    .option('checkpointLocation',path_deltaCheckpointPath) \\\r\n",
 					"    .start() \\\r\n",
 					"    .awaitTermination()\r\n",
-					")"
+					")\r\n",
+					"\r\n",
+					"# 12m,16sec en procesar todas las entidades, en lotes de 1 fichero, sin optimización de escritura\r\n",
+					"# sec en procesar todas las entidades, en lotes de 1 fichero, con optimización de escritura de 128Mb. Aumenta un 20% aprox.\r\n",
+					"#  Por lo comprobado compacta cada escritura del merge a 128Mb, faltaría probarlo bien porque los batch son pequeños para este ejemplo.\r\n",
+					"#  Parece que hay algo que no le termina de gustar con la característica de optimización de escritura y availableNow\r\n",
+					""
 				],
-				"execution_count": 10
+				"execution_count": 20
 			},
 			{
 				"cell_type": "code",
